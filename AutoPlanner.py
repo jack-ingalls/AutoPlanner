@@ -8,6 +8,7 @@ C:\Users\Whitney Jo\.spyder2\.temp.py
 
 import ast
 import datetime
+import Tkinter
 
 DEFAULT_TASK_TIME = datetime.timedelta(hours=1)  # 1 hour
 DEFAULT_TASK_DURATION = datetime.timedelta(days=1)  # 1 hour
@@ -154,10 +155,13 @@ class task:
 class ToDoList:
     def __init__(self, listFile = "MyToDos.dat"):
         self.listFile = listFile
-        f = open(listFile, 'r')
-        self.dictionaryOfTasks = ast.literal_eval(f.read())
-        f.close
-        self.MainMenu()
+        try:
+            f = open(listFile, 'r')
+            self.dictionaryOfTasks = ast.literal_eval(f.read())
+            f.close()
+        except:
+            self.dictionaryOfTasks = {}
+            f.close()
         
     def MainMenu(self):
         while True:
@@ -228,4 +232,20 @@ class ToDoList:
         self.dictionaryOfTasks[name] = newTask
         print
         
+def MainDisplay(myToDoList):
+    root = Tkinter.Tk()
+    mainContainer = Tkinter.Frame(root)
+    mainContainer.pack()
+    
+    addButton = Tkinter.Button(mainContainer)
+    addButton["text"] = "Add Task"
+    addButton.pack()
+    
+    showButton = Tkinter.Button(mainContainer)
+    showButton["text"] = "Show Tasks"
+    showButton.pack()
+    
+    root.mainloop()
+    
 myToDoList = ToDoList()
+MainDisplay(myToDoList)
